@@ -27,6 +27,8 @@ $permalink = "{$protocol}{$_SERVER['SERVER_NAME']}/meeting.php?week={$start_ts}"
 $page_title = getTeamName() . " Weekly Updates - Meeting View";
 include_once('phplib/header.php');
 include_once('phplib/nav.php');
+
+$editor = getEditorByUser($my_username, $_GET['editor']);
 ?>
 
 <script>
@@ -73,14 +75,12 @@ function setDateToLastWeek() {
         ?>
         </small></h2>
         <form action="<?php echo $ROOT_URL; ?>/add_meeting_notes.php" method="POST" id="weekly-notes">
-        <textarea class="textarea span12" name="weeklynotes" placeholder="Enter Meeting Notes, e.g. Hiring, Launches, Corp IT information" style="height: 200px">
-            <?php echo $previous_report  ?>
-        </textarea>
-        <script>
-            $('.textarea').wysihtml5({"image": false, "color": false});
-        </script>
+        <textarea class="textarea span12" name="weeklynotes" placeholder="Enter Meeting Notes, e.g. Hiring, Launches, Corp IT information" style="height: 200px"><?php echo $previous_report ?></textarea>
+        <?php echo $editor->printEditor() ?>
+        <input type="hidden" name="editor" value="<?php echo $editor::TYPE ?>">
         <input type="hidden" name="range_start" value="<?php echo $start_ts ?>">
         <input type="hidden" name="range_end" value="<?php echo $end_ts ?>">
+        <?php printEditorsList() ?>
         <button class="btn btn-primary" type="submit">Save Meeting Notes</button>
         </form>
 

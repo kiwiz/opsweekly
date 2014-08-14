@@ -16,6 +16,7 @@
 <link href="<?php echo $ROOT_URL;?>/assets/cal-heatmap.css" rel="stylesheet">
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>google.load("visualization", "1", {packages:["corechart"]});</script>
+<script type="text/javascript" src="/assets/editors.js"></script>
 </head>
 
 <body>

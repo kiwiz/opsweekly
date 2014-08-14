@@ -16,8 +16,9 @@ $oncall_end = $oncall_period[1];
 
 $page_title = getTeamName() . " Weekly Updates - Add new update";
 include_once('phplib/header.php');
-include_once('phplib/nav.php')
+include_once('phplib/nav.php');
 
+$editor = getEditorByUser($my_username, $_GET['editor']);
 ?>
 
 <div class="container">
@@ -70,12 +71,12 @@ include_once('phplib/nav.php')
 
                 ?>
                 <form action="add_generic_weekly.php" method="POST">
-                <textarea class="textarea span7" name="weeklyupdate" placeholder="Enter Update" style="height: 500px"><?php echo $previous_report  ?></textarea>
-                <script>
-                    $('.textarea').wysihtml5({"image": false, "color": false});
-                </script>
+                <textarea class="textarea span7" name="weeklyupdate" placeholder="Enter Update" style="height: 500px"><?php echo $previous_report ?></textarea>
+                <?php echo $editor->printEditor(); ?>
+                <input type="hidden" name="editor" value="<?php echo $editor::TYPE ?>">
                 <input type="hidden" name="range_start" value="<?php echo $start_ts ?>">
                 <input type="hidden" name="range_end" value="<?php echo $end_ts ?>">
+                <?php printEditorsList() ?>
                 <button class="btn btn-primary" type="submit">Save Weekly Update</button>
                 <button class="btn btn-success" name="do_email" type="submit" value="true"><i class="icon-white icon-envelope"></i> Save and email this report</button>
                 </form>

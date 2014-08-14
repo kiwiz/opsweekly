@@ -2,7 +2,6 @@
 
 include_once("phplib/base.php");
 
-
 $time_requested = getOrSetRequestedDate();
 
 $start_end = getWeekRange($time_requested);

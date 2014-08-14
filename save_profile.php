@@ -10,9 +10,10 @@ if (!connectToDB()) {
     $tz = mysql_real_escape_string($_POST['timezone']);
     $sleep_provider = mysql_real_escape_string($_POST['sleeptracking_provider']);
     $sleep_settings = mysql_real_escape_string(json_encode($_POST['sleeptracking']));
+    $editor = mysql_real_escape_string($_POST['editor']);
 
-    $query = "REPLACE INTO user_profile (ldap_username, full_name, timezone, sleeptracking_provider, sleeptracking_settings) 
-                                    VALUES ('$username', '$full_name', '$tz', '$sleep_provider', '$sleep_settings')";
+    $query = "REPLACE INTO user_profile (ldap_username, full_name, timezone, sleeptracking_provider, sleeptracking_settings, editor)
+                                    VALUES ('$username', '$full_name', '$tz', '$sleep_provider', '$sleep_settings', '$editor')";
     if (!mysql_query($query)) {
         echo "Database update failed, error: " . mysql_error();
     } else {

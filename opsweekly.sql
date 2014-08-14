@@ -9,6 +9,7 @@ CREATE TABLE `oncall_weekly` (
     `state` varchar(20) NOT NULL,
     `contact` varchar(255) NOT NULL,
     `output` text NOT NULL,
+    `output_type` varchar(255) NOT NULL,
     `tag` varchar(255),
     `sleep_state` int(1) signed,
     `mtts` int(5) signed,
@@ -28,6 +29,7 @@ CREATE TABLE `generic_weekly` (
     `user` varchar(255) NOT NULL,
     `state` varchar(255) NOT NULL, 
     `report` text NOT NULL,
+    `report_type` varchar(255) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `report_name` (`report_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -40,6 +42,7 @@ CREATE TABLE `meeting_notes` (
     `timestamp` int(10) unsigned NOT NULL,
     `user` varchar(255) NOT NULL,
     `notes` text NOT NULL,
+    `notes_type` varchar(255) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `report_name` (`report_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -50,6 +53,7 @@ CREATE TABLE `user_profile` (
     `timezone` varchar(10) NOT NULL,
     `sleeptracking_provider` varchar(255) NOT NULL,
     `sleeptracking_settings` text NOT NULL,
+    `editor` varchar(255) NOT NULL,
     PRIMARY KEY (`ldap_username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

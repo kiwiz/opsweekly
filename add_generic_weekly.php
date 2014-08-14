@@ -12,7 +12,8 @@ if (!connectToDB()) {
     $report_id = generateWeeklyReportID($username, $range_start, $range_end);
     $state = "final";
     $report = mysql_real_escape_string($_POST['weeklyupdate']);
-    $query = "INSERT INTO generic_weekly (report_id, range_start, range_end, timestamp, user, state, report) VALUES ('$report_id', '$range_start', '$range_end', '$timestamp', '$username', '$state', '$report')";
+    $report_type = $_POST['editor'];
+    $query = "INSERT INTO generic_weekly (report_id, range_start, range_end, timestamp, user, state, report, report_type) VALUES ('$report_id', '$range_start', '$range_end', '$timestamp', '$username', '$state', '$report', '$report_type')";
     if (!mysql_query($query)) {
         echo "Database update failed, error: " . mysql_error();
     } else {

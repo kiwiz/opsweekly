@@ -237,6 +237,37 @@ function printHeaderNav() {
     }
 }
 
+function getEditor($editor_name) {
+    global $editors;
+    $editor_name = array_key_exists($editor_name, $editors) ? $editor_name:array_keys($editors)[0];
+
+    include_once($editors[$editor_name]['lib']);
+    return new $editors[$editor_name]['class']();
+}
+
+function getEditorNameByUser($username) {
+    $editor_name = '';
+    $username = mysql_real_escape_string($username);
+    if (connectToDB()) {
+        $results = mysql_query("SELECT editor FROM user_profile where ldap_username='{$username}' LIMIT 1");
+        if (mysql_num_rows($results) == 1) {
+            $editor_name = mysql_fetch_assoc($results)['editor'];
+        }
+    }
+
+    return $editor_name;
+}
+
+function getEditorByUser($username, $override=null) {
+    if ($override) {
+        $editor_name = $override;
+    } else {
+        $editor_name = getEditorNameByUser($username);
+    }
+
+    return getEditor($editor_name);
+}
+
 function getGenericWeeklyReportsForWeek($range_start, $range_end) {
     connectToDB();
     $query = "SELECT * FROM generic_weekly WHERE id IN (SELECT max(id) FROM generic_weekly where range_start='{$range_start}' AND range_end='{$range_end}' GROUP BY(user)) ORDER BY user ASC;";
@@ -481,20 +512,39 @@ function formatOnCallRowForPrint(array $n) {
 }
 
 function formatWeeklyReportForPrint(array $data) {
+    $editor = getEditor($data['report_type']);
+    $content = $editor->formatEntry($data['report']);
     $pretty_time = getPrettyTime($data['timestamp']);
     $html = "<h3>{$data['user']}<small> written {$pretty_time}</small></h3>";
-    $html .= "<div class='well well-small'><p>{$data['report']}</p></div>";
+    $html .= "<div class='well well-small'><p>{$content}</p></div>";
 
     return $html;
 }
 
 function formatMeetingNotesForPrint(array $data, $small_header = false) {
+    $editor = getEditor($data['notes_type']);
+    $content = $editor->formatEntry($data['notes']);
     $html = ($small_header) ? "<h4>Notes " : "<h2>Meeting Notes <small>";
     $html .= "taken by {$data['user']} at the " . getTeamName() ." Meeting held on " . date("l jS F Y", $data['timestamp']);
     $html .= ($small_header) ? "</h4>" : "</small></h2>";
-    $html .= "<div class='well well-small'>{$data['notes']}</div>";
+    $html .= "<div class='well well-small'>{$content}</div>";
 
     return $html;
+}
+
+function printEditorsList() {
+    global $editors;
+
+    echo '<div class="btn-group dropup">';
+    echo '<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">';
+    echo 'Editor <span class="caret"></span>';
+    echo '</a>';
+    echo '<ul class="dropdown-menu">';
+    foreach ($editors as $name=>$val) {
+        printf('<li><a href="?editor=%s">%s</a></li>', $name, $name);
+    }
+    echo '</ul>';
+    echo '</div>';
 }
 
 function printWeeklyHints($username, $from, $to) {

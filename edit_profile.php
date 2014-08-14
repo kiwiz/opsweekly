@@ -46,6 +46,7 @@ if (isset($_GET['succ'])) {
             </select>
             </fieldset>
             <br />
+
             <fieldset>
             <legend>Sleep Tracking</legend>
             <label class="radio">
@@ -66,6 +67,20 @@ if (isset($_GET['succ'])) {
                             data-toggle='tooltip' title='{$o_config['description']}' value='{$sleeptracking_settings[$provider_id][$option_id]}'>";
                     }
                     echo "</div>";
+                }
+            ?>
+            </fieldset>
+
+            <br />
+            <fieldset>
+            <legend>Editor</legend>
+            <?php
+                foreach ($editors as $editor_key => $e_config) {
+                    $checked = ($profile['editor'] == $editor_key) ? " checked" : "";
+                    echo '<label class="radio">';
+                    echo "<input type='radio' name='editor' id='editor-{$editor_key}' value='{$editor_key}'{$checked}>";
+                    echo "<strong>{$e_config['name']}</strong> - {$e_config['description']}";
+                    echo "</label>";
                 }
             ?>
             </fieldset>
