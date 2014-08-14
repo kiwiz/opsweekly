@@ -45,7 +45,7 @@ Alert classification is a complicated task, but with Opsweekly a few simple ques
 * A webserver
 * PHP 5.4 (or higher), including the curl extensions for PHP, MySQL extension, and short_open_tags enabled
 * MySQL for data storage
-
+* PHPMarkdown PEAR package
 
 ## Installation/configuration
 1. Download/clone the repo into an appropriate folder either in your
@@ -173,6 +173,15 @@ The `$sleep_providers` array handles the definition and configuring of the plugi
 * `lib`: The path to the PHP file that contains your provider code, e.g. `providers/sleep/up.php`
 * You are also allowed to pass any other arbritray key/value pairs in. As the entire config array is passed to the plugin, you can retrieve any values that are applicable to Opsweekly as a whole, rather than per user (which are specified above)
 
+### Editor configuration
+In this section you can define and configure additional editors. To add an editor, first copy `editors/example.php` and implement both the `printEditor` and `formatEntry` methods. Next, add your editor to this array.
+
+The `$editors` array tells the app what editors are available. The following values are required for each entry:
+
+* `name`: A friendly display name for this editor.
+* `description`: A description of this editor.
+* `class`: The class name that implements this editor.
+* `lib`: The path to the PHP file that contains the code for this editor.
 
 ### Generic configuration
 There are a few other configuration options, which are documented in the example config file. Some highlights include:
