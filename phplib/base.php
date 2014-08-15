@@ -258,13 +258,10 @@ function getEditorNameByUser($username) {
     return $editor_name;
 }
 
-function getEditorByUser($username, $override=null) {
-    if ($override) {
-        $editor_name = $override;
-    } else {
+function getEditorByUser($username, $editor_name=null) {
+    if (is_null($editor_name)) {
         $editor_name = getEditorNameByUser($username);
     }
-
     return getEditor($editor_name);
 }
 

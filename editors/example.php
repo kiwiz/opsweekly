@@ -4,7 +4,9 @@
  * This is a editor.
  */
 
-class ExampleEditor {
+require_once('editor.php');
+
+class ExampleEditor extends Editor {
     const TYPE = 'example';
 
     /*

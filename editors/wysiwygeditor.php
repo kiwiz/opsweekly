@@ -1,6 +1,8 @@
 <?php
 
-class WYSIWYGEditor {
+require_once('editor.php');
+
+class WYSIWYGEditor extends Editor {
     const TYPE = 'wysiwyg';
 
     public function printEditor() {
